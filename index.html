@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello, World!</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+      <h1 class="title">Hello World!</h1>
+      <p id="currentTime"></p>
+      <script src="script.js"></script>
+  </body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BorneoNest - Kuching Homestays & Stays</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- React & React DOM -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        sarawak: {
+                            red: '#D9232A',
+                            yellow: '#FCD116',
+                            black: '#121212',
+                            teal: '#0F766E',
+                            emerald: '#059669',
+                            warmBg: '#FAF7F2',
+                            cardBorder: '#E5DFD5'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FAF7F2;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #1F2937;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.25s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col selection:bg-teal-500 selection:text-white">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const INITIAL_HOMESTAYS = [
+            {
+                id: "hs_001",
+                title: "Cozy Heritage Loft near Kuching Waterfront",
+                location: "Kuching City Centre",
+                address: "Jalan Main Bazaar, 93000 Kuching, Sarawak",
+                category: "Heritage",
+                nightly_price_myr: 180,
+                bedrooms: 2,
+                beds: 2,
+                bathrooms: 1,
+                max_guests: 4,
+                rating: 4.92,
+                reviews_count: 38,
+                image_url: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+                images: [
+                    "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+                    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80",
+                    "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80",
+                    "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=800&q=80"
+                ],
+                amenities: ["Free WiFi", "Air Conditioning", "Kitchenette", "River View Walk", "Washing Machine", "Smart TV"],
+                host_name: "Uncle Raymond",
+                host_avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80",
+                is_superhost: true,
+                description: "Experience authentic Sarawakian hospitality right in the heart of Kuching! This fully restored heritage loft sits just a 2-minute walk from the famous Waterfront, Carpenter Street eateries, and artisanal souvenir shops. Perfect for small families and cultural explorers.",
+                nearby_landmarks: [
+                    { name: "Kuching Waterfront", distance: "2 mins walk" },
+                    { name: "Carpenter Street Food Alley", distance: "4 mins walk" },
+                    { name: "Darul Hana Bridge", distance: "6 mins walk" },
+                    { name: "Kuching International Airport", distance: "20 mins drive" }
+                ],
+                coordinates: { lat: 1.5588, lng: 110.3470 }
+            },
+            {
+                id: "hs_002",
+                title: "Damai Beachfront Sunset Villa & Garden",
+                location: "Santubong & Damai",
+                address: "Jalan Teluk Bandung, Santubong, 93050 Kuching",
+                category: "Beachfront",
+                nightly_price_myr: 380,
+                bedrooms: 3,
+                beds: 4,
+                bathrooms: 2,
+                max_guests: 6,
+                rating: 4.96,
+                reviews_count: 54,
+                image_url: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80",
+                images: [
+                    "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80",
+                    "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+                    "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=800&q=80"
+                ],
+                amenities: ["Private Garden", "Sea View", "Air Conditioning", "BBQ Grill", "Free Parking", "WiFi", "Infinity Pool Access"],
+                host_name: "Dayang Sofia",
+                host_avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80",
+                is_superhost: true,
+                description: "Nestled at the foot of Mount Santubong facing the South China Sea. Wake up to sea breezes and spectacular orange sunsets. Walking distance to the Sarawak Cultural Village and rainforest trails.",
+                nearby_landmarks: [
+                    { name: "Damai Central Beach", distance: "3 mins walk" },
+                    { name: "Sarawak Cultural Village", distance: "8 mins walk" },
+                    { name: "Mount Santubong Trailhead", distance: "5 mins drive" }
+                ],
+                coordinates: { lat: 1.7523, lng: 110.3150 }
+            },
+            {
+                id: "hs_003",
+                title: "Satok Riverview Modern Family Apartment",
+                location: "Satok",
+                address: "Jalan Satok, Kampung Salak Area, 93400 Kuching",
+                category: "City Center",
+                nightly_price_myr: 155,
+                bedrooms: 2,
+                beds: 3,
+                bathrooms: 2,
+                max_guests: 5,
+                rating: 4.85,
+                reviews_count: 22,
+                image_url: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80",
+                images: [
+                    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80",
+                    "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80"
+                ],
+                amenities: ["Free High-Speed WiFi", "Air Conditioning", "Free Covered Parking", "Washing Machine", "Kitchen"],
+                host_name: "Ah Seng",
+                host_avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80",
+                is_superhost: false,
+                description: "Clean, spacious apartment located near Satok Malay Kampongs and traditional eateries. Perfect base to taste local Laksa Sarawak, Kolok Mee, and explore the bustling weekend markets.",
+                nearby_landmarks: [
+                    { name: "Medan Niaga Satok Market", distance: "5 mins drive" },
+                    { name: "Sarawak Museum Complex", distance: "7 mins drive" },
+                    { name: "Plaza Merdeka", distance: "8 mins drive" }
+                ],
+                coordinates: { lat: 1.5510, lng: 110.3320 }
+            },
+            {
+                id: "hs_004",
+                title: "Matang Rainforest Eco Retreat & Chalet",
+                location: "Matang",
+                address: "Jalan Matang Wildlife, 93050 Kuching, Sarawak",
+                category: "Nature",
+                nightly_price_myr: 210,
+                bedrooms: 2,
+                beds: 3,
+                bathrooms: 1,
+                max_guests: 4,
+                rating: 4.88,
+                reviews_count: 29,
+                image_url: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=800&q=80",
+                images: [
+                    "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=800&q=80",
+                    "https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=800&q=80"
+                ],
+                amenities: ["Mountain Stream View", "Outdoor Deck", "Air Conditioning", "Free Breakfast", "BBQ Pit", "Free Parking"],
+                host_name: "Cikgu Mutang",
+                host_avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80",
+                is_superhost: true,
+                description: "Surround yourself with lush tropical jungle sounds and fresh mountain streams. Built with natural Belian wood, this retreat offers peaceful tranquility while remaining only 25 minutes from Kuching City.",
+                nearby_landmarks: [
+                    { name: "Matang Wildlife Centre", distance: "10 mins walk" },
+                    { name: "Kubah National Park", distance: "8 mins drive" },
+                    { name: "Kubah Waterfall Trail", distance: "15 mins walk" }
+                ],
+                coordinates: { lat: 1.6080, lng: 110.1980 }
+            },
+            {
+                id: "hs_005",
+                title: "Hornbill Heights Luxury Penthouse with City Skyline",
+                location: "Padungan",
+                address: "Jalan Padungan, 93100 Kuching, Sarawak",
+                category: "Luxury",
+                nightly_price_myr: 295,
+                bedrooms: 3,
+                beds: 3,
+                bathrooms: 2,
+                max_guests: 6,
+                rating: 4.98,
+                reviews_count: 67,
+                image_url: "https://images.unsplash.com/photo-1567496898669-ee935f5f647a?auto=format&fit=crop&w=800&q=80",
+                images: [
+                    "https://images.unsplash.com/photo-1567496898669-ee935f5f647a?auto=format&fit=crop&w=800&q=80",
+                    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80"
+                ],
+                amenities: ["Infinity Pool", "Gym Access", "Skyline Balcony", "High-Speed WiFi", "King Bed", "Dedicated Workspace"],
+                host_name: "Jessica & Marcus",
+                host_avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80",
+                is_superhost: true,
+                description: "Stylish modern penthouse in Padungan district. Enjoy panoramic views of Kuching City, Sarawak River, and Mount Santubong in the distance. Steps away from famous seafood spots and nightlife.",
+                nearby_landmarks: [
+                    { name: "Great Cat Statue Padungan", distance: "3 mins walk" },
+                    { name: "Top Spot Food Court", distance: "6 mins walk" },
+                    { name: "Kuching Waterfront", distance: "12 mins walk" }
+                ],
+                coordinates: { lat: 1.5540, lng: 110.3580 }
+            },
+            {
+                id: "hs_006",
+                title: "Batu Kawa Riverfront Garden Villa",
+                location: "Batu Kawa",
+                address: "Jalan Batu Kawa, 93250 Kuching",
+                category: "Family",
+                nightly_price_myr: 165,
+                bedrooms: 2,
+                beds: 3,
+                bathrooms: 1,
+                max_guests: 5,
+                rating: 4.80,
+                reviews_count: 19,
+                image_url: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+                images: [
+                    "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80"
+                ],
+                amenities: ["Free Parking", "Air Conditioning", "Washing Machine", "Kitchen", "Smart TV", "Children's Play Area"],
+                host_name: "Uncle Boon",
+                host_avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80",
+                is_superhost: false,
+                description: "Peaceful ground-floor unit with private patio garden. Located close to Batu Kawa Sky Window park and vibrant night markets. Ideal for families looking for affordability and peace.",
+                nearby_landmarks: [
+                    { name: "MJC Batu Kawa Night Market", distance: "5 mins drive" },
+                    { name: "Batu Kawa Sky Window", distance: "4 mins drive" },
+                    { name: "Aeon Mall Kuching Central", distance: "10 mins drive" }
+                ],
+                coordinates: { lat: 1.5120, lng: 110.3090 }
+            }
+        ];
+
+        const formatMYR = (amount) => {
+            return `RM ${Number(amount).toLocaleString('en-MY', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+        };
+
+        const getTodayString = () => {
+            const today = new Date();
+            return today.toISOString().split('T')[0];
+        };
+
+        const getTomorrowString = () => {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            return tomorrow.toISOString().split('T')[0];
+        };
+
+        const calculateNights = (checkIn, checkOut) => {
+            if (!checkIn || !checkOut) return 1;
+            const start = new Date(checkIn);
+            const end = new Date(checkOut);
+            const diffTime = end - start;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays > 0 ? diffDays : 1;
+        };
+
+        function App() {
+            // State declarations
+            const [homestays, setHomestays] = React.useState(INITIAL_HOMESTAYS);
+            const [selectedHomestay, setSelectedHomestay] = React.useState(null);
+            const [wishlist, setWishlist] = React.useState([]);
+            const [activeTab, setActiveTab] = React.useState('explore'); // 'explore', 'bookings', 'host', 'saved'
+            
+            // Search & Filter state
+            const [searchKeyword, setSearchKeyword] = React.useState('');
+            const [selectedLocation, setSelectedLocation] = React.useState('All');
+            const [selectedCategory, setSelectedCategory] = React.useState('All');
+            const [maxPrice, setMaxPrice] = React.useState(500);
+            const [minBedrooms, setMinBedrooms] = React.useState(1);
+
+            // Booking Form Modal State
+            const [bookingModalOpen, setBookingModalOpen] = React.useState(false);
+            const [checkInDate, setCheckInDate] = React.useState(getTodayString());
+            const [checkOutDate, setCheckOutDate] = React.useState(getTomorrowString());
+            const [guestsCount, setGuestsCount] = React.useState(2);
+            
+            // Guest Details state
+            const [guestName, setGuestName] = React.useState('');
+            const [guestEmail, setGuestEmail] = React.useState('');
+            const [guestPhone, setGuestPhone] = React.useState('');
+            const [specialRequests, setSpecialRequests] = React.useState('');
+            const [pdpaAccepted, setPdpaAccepted] = React.useState(true);
+            const [formErrors, setFormErrors] = React.useState({});
+
+            // Bookings History state
+            const [userBookings, setUserBookings] = React.useState([]);
+            const [activeReceipt, setActiveReceipt] = React.useState(null);
+
+            // Map overlay view toggle
+            const [showMapView, setShowMapView] = React.useState(false);
+            const [toastMessage, setToastMessage] = React.useState(null);
+
+            // Helper to show temporary toast notification
+            const triggerToast = (msg) => {
+                setToastMessage(msg);
+                setTimeout(() => setToastMessage(null), 3500);
+            };
+
+            // Wishlist toggle
+            const toggleWishlist = (e, id) => {
+                e.stopPropagation();
+                if (wishlist.includes(id)) {
+                    setWishlist(wishlist.filter(item => item !== id));
+                    triggerToast("Removed stay from your saved list");
+                } else {
+                    setWishlist([...wishlist, id]);
+                    triggerToast("Saved to your Borneo wishlist!");
+                }
+            };
+
+            // Filter computation
+            const filteredHomestays = homestays.filter(item => {
+                const matchesKeyword = item.title.toLowerCase().includes(searchKeyword.toLowerCase()) || 
+                                       item.location.toLowerCase().includes(searchKeyword.toLowerCase()) ||
+                                       item.description.toLowerCase().includes(searchKeyword.toLowerCase());
+                const matchesLocation = selectedLocation === 'All' || item.location === selectedLocation;
+                const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
+                const matchesPrice = item.nightly_price_myr <= maxPrice;
+                const matchesBedrooms = item.bedrooms >= minBedrooms;
+
+                return matchesKeyword && matchesLocation && matchesCategory && matchesPrice && matchesBedrooms;
+            });
+
+            // Clean date change handling with validation
+            const handleCheckInChange = (e) => {
+                const newCheckIn = e.target.value;
+                setCheckInDate(newCheckIn);
+                if (new Date(checkOutDate) <= new Date(newCheckIn)) {
+                    const nextDay = new Date(newCheckIn);
+                    nextDay.setDate(nextDay.getDate() + 1);
+                    setCheckOutDate(nextDay.toISOString().split('T')[0]);
+                }
+            };
+
+            const handleCheckOutChange = (e) => {
+                const newCheckOut = e.target.value;
+                if (new Date(newCheckOut) <= new Date(checkInDate)) {
+                    triggerToast("Check-out date must be after check-in date!");
+                    return;
+                }
+                setCheckOutDate(newCheckOut);
+            };
+
+            // Dynamic stay total cost calculation
+            const stayNights = calculateNights(checkInDate, checkOutDate);
+            const currentPricePerNight = selectedHomestay ? selectedHomestay.nightly_price_myr : 0;
+            const subtotalPrice = currentPricePerNight * stayNights;
+            const cleaningFee = selectedHomestay ? 45 : 0;
+            const serviceTax = selectedHomestay ? Math.round(subtotalPrice * 0.06) : 0;
+            const grandTotalMYR = subtotalPrice + cleaningFee + serviceTax;
+
+            // Handle Booking Submit
+            const handleBookingSubmit = (e) => {
+                e.preventDefault();
+                const errors = {};
+
+                if (!guestName.trim()) errors.name = "Full name is required";
+                if (!guestEmail.trim() || !guestEmail.includes('@')) errors.email = "Valid email address is required";
+                if (!guestPhone.trim() || guestPhone.length < 8) errors.phone = "Valid Malaysian phone number is required";
+                if (!pdpaAccepted) errors.pdpa = "You must agree to PDPA privacy terms";
+
+                if (Object.keys(errors).length > 0) {
+                    setFormErrors(errors);
+                    return;
+                }
+
+                setFormErrors({});
+
+                const bookingRecord = {
+                    bookingId: `BN-KCH-${Math.floor(10000 + Math.random() * 90000)}`,
+                    homestay: selectedHomestay,
+                    checkIn: checkInDate,
+                    checkOut: checkOutDate,
+                    nights: stayNights,
+                    guests: guestsCount,
+                    guestName,
+                    guestEmail,
+                    guestPhone,
+                    specialRequests,
+                    totalMYR: grandTotalMYR,
+                    status: "Confirmed",
+                    createdAt: new Date().toLocaleDateString('en-MY', { day: 'numeric', month: 'short', year: 'numeric' })
+                };
+
+                setUserBookings([bookingRecord, ...userBookings]);
+                setBookingModalOpen(false);
+                setActiveReceipt(bookingRecord);
+                triggerToast("Booking request submitted successfully!");
+            };
+
+            return (
+                <div className="flex flex-col min-h-screen">
+                    {/* Toast Alert Banner */}
+                    {toastMessage && (
+                        <div className="fixed top-5 right-5 z-50 bg-gray-900 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center space-x-3 border border-gray-700 animate-fade-in">
+                            <i className="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+                            <span className="text-sm font-medium">{toastMessage}</span>
+                        </div>
+                    )}
+
+                    {/* Top Navbar */}
+                    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+                            {/* Logo */}
+                            <div 
+                                onClick={() => { setSelectedHomestay(null); setActiveTab('explore'); setActiveReceipt(null); }}
+                                className="flex items-center space-x-3 cursor-pointer group"
+                            >
+                                <div className="w-11 h-11 bg-teal-700 rounded-2xl flex items-center justify-center text-sarawak-yellow font-extrabold shadow-md transform group-hover:scale-105 transition">
+                                    <i className="fa-solid fa-feather-pointed text-xl text-yellow-300"></i>
+                                </div>
+                                <div>
+                                    <span className="text-2xl font-extrabold tracking-tight text-gray-900">Borneo<span className="text-teal-700">Nest</span></span>
+                                    <span className="block text-[10px] uppercase font-bold tracking-widest text-emerald-700 -mt-1">Kuching, Sarawak</span>
+                                </div>
+                            </div>
+
+                            {/* Center Navigation Links */}
+                            <nav className="hidden md:flex items-center space-x-1 bg-gray-100/80 p-1.5 rounded-full border border-gray-200">
+                                <button 
+                                    onClick={() => { setActiveTab('explore'); setSelectedHomestay(null); setActiveReceipt(null); }}
+                                    className={`px-5 py-2 text-sm font-semibold rounded-full transition ${activeTab === 'explore' && !selectedHomestay ? 'bg-white text-teal-800 shadow-sm' : 'text-gray-600 hover:text-gray-900'}`}
+                                >
+                                    <i className="fa-solid fa-compass mr-2 text-teal-600"></i>Explore Stays
+                                </button>
+                                <button 
+                                    onClick={() => { setActiveTab('saved'); setSelectedHomestay(null); setActiveReceipt(null); }}
+                                    className={`px-5 py-2 text-sm font-semibold rounded-full transition ${activeTab === 'saved' ? 'bg-white text-teal-800 shadow-sm' : 'text-gray-600 hover:text-gray-900'}`}
+                                >
+                                    <i className="fa-solid fa-heart mr-2 text-red-500"></i>Wishlist ({wishlist.length})
+                                </button>
+                                <button 
+                                    onClick={() => { setActiveTab('bookings'); setSelectedHomestay(null); setActiveReceipt(null); }}
+                                    className={`px-5 py-2 text-sm font-semibold rounded-full transition ${activeTab === 'bookings' ? 'bg-white text-teal-800 shadow-sm' : 'text-gray-600 hover:text-gray-900'}`}
+                                >
+                                    <i className="fa-solid fa-receipt mr-2 text-indigo-600"></i>My Bookings {userBookings.length > 0 && `(${userBookings.length})`}
+                                </button>
+                                <button 
+                                    onClick={() => { setActiveTab('host'); setSelectedHomestay(null); setActiveReceipt(null); }}
+                                    className={`px-5 py-2 text-sm font-semibold rounded-full transition ${activeTab === 'host' ? 'bg-white text-teal-800 shadow-sm' : 'text-gray-600 hover:text-gray-900'}`}
+                                >
+                                    <i className="fa-solid fa-house-user mr-2 text-amber-600"></i>Host Portal
+                                </button>
+                            </nav>
+
+                            {/* Right Actions & MYR Currency Indicator */}
+                            <div className="flex items-center space-x-3">
+                                <div className="hidden sm:flex items-center space-x-2 bg-amber-50 border border-amber-200/80 px-3 py-1.5 rounded-xl text-xs font-bold text-amber-800">
+                                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                    <span>Prices in MYR (RM)</span>
+                                </div>
+                                <button 
+                                    onClick={() => setShowMapView(!showMapView)}
+                                    className="px-4 py-2 bg-teal-800 text-white rounded-xl text-sm font-bold shadow-md hover:bg-teal-900 transition flex items-center space-x-2"
+                                >
+                                    <i className={`fa-solid ${showMapView ? 'fa-list-ul' : 'fa-map-location-dot'}`}></i>
+                                    <span className="hidden sm:inline">{showMapView ? 'Grid View' : 'Map View'}</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Mobile Navigation bar */}
+                        <div className="md:hidden flex border-t border-gray-200 bg-white px-2 py-2 justify-around text-xs font-semibold text-gray-600">
+                            <button 
+                                onClick={() => { setActiveTab('explore'); setSelectedHomestay(null); }} 
+                                className={`flex flex-col items-center py-1 ${activeTab === 'explore' ? 'text-teal-700' : ''}`}
+                            >
+                                <i className="fa-solid fa-compass text-base mb-0.5"></i>
+                                Explore
+                            </button>
+                            <button 
+                                onClick={() => { setActiveTab('saved'); setSelectedHomestay(null); }} 
+                                className={`flex flex-col items-center py-1 ${activeTab === 'saved' ? 'text-teal-700' : ''}`}
+                            >
+                                <i className="fa-solid fa-heart text-base mb-0.5 text-red-500"></i>
+                                Saved ({wishlist.length})
+                            </button>
+                            <button 
+                                onClick={() => { setActiveTab('bookings'); setSelectedHomestay(null); }} 
+                                className={`flex flex-col items-center py-1 ${activeTab === 'bookings' ? 'text-teal-700' : ''}`}
+                            >
+                                <i className="fa-solid fa-receipt text-base mb-0.5"></i>
+                                Bookings
+                            </button>
+                            <button 
+                                onClick={() => { setActiveTab('host'); setSelectedHomestay(null); }} 
+                                className={`flex flex-col items-center py-1 ${activeTab === 'host' ? 'text-teal-700' : ''}`}
+                            >
+                                <i className="fa-solid fa-house-user text-base mb-0.5"></i>
+                                Host
+                            </button>
+                        </div>
+                    </header>
+
+                    {/* Main Content Area Switcher */}
+                    <main className="flex-grow">
+                        {}
+                        {activeReceipt ? (
+                            <ReceiptView 
+                                receipt={activeReceipt} 
+                                onBackToExplore={() => { setActiveReceipt(null); setActiveTab('explore'); setSelectedHomestay(null); }} 
+                            />
+                        ) : selectedHomestay ? (
+                            <PropertyDetailView 
+                                homestay={selectedHomestay}
+                                onBack={() => setSelectedHomestay(null)}
+                                checkInDate={checkInDate}
+                                checkOutDate={checkOutDate}
+                                onCheckInChange={handleCheckInChange}
+                                onCheckOutChange={handleCheckOutChange}
+                                stayNights={stayNights}
+                                guestsCount={guestsCount}
+                                setGuestsCount={setGuestsCount}
+                                grandTotalMYR={grandTotalMYR}
+                                cleaningFee={cleaningFee}
+                                serviceTax={serviceTax}
+                                onOpenBooking={() => setBookingModalOpen(true)}
+                                isSaved={wishlist.includes(selectedHomestay.id)}
+                                onToggleWishlist={(e) => toggleWishlist(e, selectedHomestay.id)}
+                            />
+                        ) : activeTab === 'saved' ? (
+                            <SavedWishlistView 
+                                wishlistIds={wishlist}
+                                homestays={homestays}
+                                onSelectStay={(stay) => setSelectedHomestay(stay)}
+                                onToggleWishlist={toggleWishlist}
+                                onExploreMore={() => setActiveTab('explore')}
+                            />
+                        ) : activeTab === 'bookings' ? (
+                            <UserBookingsView 
+                                bookings={userBookings}
+                                onViewReceipt={(b) => setActiveReceipt(b)}
+                                onExploreMore={() => setActiveTab('explore')}
+                            />
+                        ) : activeTab === 'host' ? (
+                            <HostPortalView 
+                                homestays={homestays}
+                                setHomestays={setHomestays}
+                                userBookings={userBookings}
+                                triggerToast={triggerToast}
+                            />
+                        ) : (
+                            /* Default Explore Page View */
+                            <ExploreView 
+                                homestays={filteredHomestays}
+                                allHomestays={homestays}
+                                searchKeyword={searchKeyword}
+                                setSearchKeyword={setSearchKeyword}
+                                selectedLocation={selectedLocation}
+                                setSelectedLocation={setSelectedLocation}
+                                selectedCategory={selectedCategory}
+                                setSelectedCategory={setSelectedCategory}
+                                maxPrice={maxPrice}
+                                setMaxPrice={setMaxPrice}
+                                minBedrooms={minBedrooms}
+                                setMinBedrooms={setMinBedrooms}
+                                onSelectStay={(stay) => setSelectedHomestay(stay)}
+                                wishlist={wishlist}
+                                toggleWishlist={toggleWishlist}
+                                showMapView={showMapView}
+                            />
+                        )}
+                    </main>
+
+                    {/* Booking Form Drawer / Modal */}
+                    {bookingModalOpen && selectedHomestay && (
+                        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+                            <div className="bg-white rounded-3xl max-w-2xl w-full shadow-2xl overflow-hidden animate-fade-in my-8 border border-gray-100">
+                                {/* Modal Header */}
+                                <div className="bg-teal-900 text-white px-6 py-5 flex items-center justify-between">
+                                    <div className="flex items-center space-x-3">
+                                        <div className="w-10 h-10 bg-teal-800 rounded-xl flex items-center justify-center text-amber-300 font-bold">
+                                            <i className="fa-solid fa-calendar-check text-lg"></i>
+                                        </div>
+                                        <div>
+                                            <h3 className="text-lg font-bold">Complete Your Reservation</h3>
+                                            <p className="text-xs text-teal-200">Kuching, Sarawak • Direct Host Request</p>
+                                        </div>
+                                    </div>
+                                    <button 
+                                        onClick={() => setBookingModalOpen(false)}
+                                        className="w-9 h-9 rounded-full bg-teal-800/80 hover:bg-teal-700 text-white flex items-center justify-center transition"
+                                    >
+                                        <i className="fa-solid fa-xmark"></i>
+                                    </button>
+                                </div>
+
+                                <form onSubmit={handleBookingSubmit} className="p-6 space-y-6">
+                                    {/* Stay Summary Card */}
+                                    <div className="bg-amber-50/70 border border-amber-200/80 rounded-2xl p-4 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+                                        <img 
+                                            src={selectedHomestay.image_url} 
+                                            alt={selectedHomestay.title} 
+                                            className="w-full sm:w-24 h-24 object-cover rounded-xl shadow-sm"
+                                        />
+                                        <div className="flex-1 min-w-0">
+                                            <h4 className="font-bold text-gray-900 text-sm truncate">{selectedHomestay.title}</h4>
+                                            <p className="text-xs text-gray-600 mt-0.5"><i className="fa-solid fa-location-dot text-teal-700 mr-1"></i>{selectedHomestay.location}</p>
+                                            
+                                            <div className="mt-2 grid grid-cols-2 gap-2 text-xs font-medium text-gray-700 bg-white p-2 rounded-lg border border-amber-100">
+                                                <div>
+                                                    <span className="text-gray-400 block text-[10px]">CHECK-IN</span>
+                                                    {checkInDate}
+                                                </div>
+                                                <div>
+                                                    <span className="text-gray-400 block text-[10px]">CHECK-OUT</span>
+                                                    {checkOutDate} ({stayNights} night{stayNights > 1 ? 's' : ''})
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="sm:text-right border-t sm:border-t-0 sm:border-l border-amber-200 pt-2 sm:pt-0 sm:pl-4 w-full sm:w-auto">
+                                            <span className="text-xs text-gray-500 block">Total Payable</span>
+                                            <span className="text-xl font-extrabold text-teal-800">{formatMYR(grandTotalMYR)}</span>
+                                        </div>
+                                    </div>
+
+                                    {/* Guest Information Input Section */}
+                                    <div className="space-y-4">
+                                        <h4 className="text-sm font-bold uppercase tracking-wider text-gray-500 border-b pb-2">Guest Information</h4>
+
+                                        <div>
+                                            <label className="block text-xs font-bold text-gray-700 mb-1">Full Name *</label>
+                                            <input 
+                                                type="text" 
+                                                placeholder="e.g. Ahmad Ali Bin Hassan"
+                                                value={guestName}
+                                                onChange={(e) => setGuestName(e.target.value)}
+                                                className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-teal-600 ${formErrors.name ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
+                                            />
+                                            {formErrors.name && <p className="text-xs text-red-500 mt-1">{formErrors.name}</p>}
+                                        </div>
+
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <div>
+                                                <label className="block text-xs font-bold text-gray-700 mb-1">Email Address *</label>
+                                                <input 
+                                                    type="email" 
+                                                    placeholder="ahmad@example.com"
+                                                    value={guestEmail}
+                                                    onChange={(e) => setGuestEmail(e.target.value)}
+                                                    className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-teal-600 ${formErrors.email ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
+                                                />
+                                                {formErrors.email && <p className="text-xs text-red-500 mt-1">{formErrors.email}</p>}
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-bold text-gray-700 mb-1">Mobile Phone (WhatsApp) *</label>
+                                                <div className="flex">
+                                                    <span className="inline-flex items-center px-3 rounded-l-xl border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-xs font-semibold">
+                                                        +60
+                                                    </span>
+                                                    <input 
+                                                        type="tel" 
+                                                        placeholder="12 345 6789"
+                                                        value={guestPhone}
+                                                        onChange={(e) => setGuestPhone(e.target.value)}
+                                                        className={`w-full px-4 py-2.5 rounded-r-xl border text-sm focus:outline-none focus:ring-2 focus:ring-teal-600 ${formErrors.phone ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
+                                                    />
+                                                </div>
+                                                {formErrors.phone && <p className="text-xs text-red-500 mt-1">{formErrors.phone}</p>}
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-xs font-bold text-gray-700 mb-1">Special Requests / Arrival Time (Optional)</label>
+                                            <textarea 
+                                                rows="2"
+                                                placeholder="e.g. Flight arrives at 3:00 PM, requesting early check-in if possible."
+                                                value={specialRequests}
+                                                onChange={(e) => setSpecialRequests(e.target.value)}
+                                                className="w-full px-4 py-2 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-teal-600"
+                                            ></textarea>
+                                        </div>
+                                    </div>
+
+                                    {/* PDPA Privacy Agreement */}
+                                    <div className="bg-gray-50 p-3 rounded-xl border border-gray-200">
+                                        <label className="flex items-start space-x-3 cursor-pointer">
+                                            <input 
+                                                type="checkbox" 
+                                                checked={pdpaAccepted}
+                                                onChange={(e) => setPdpaAccepted(e.target.checked)}
+                                                className="mt-1 h-4 w-4 text-teal-700 focus:ring-teal-500 rounded border-gray-300"
+                                            />
+                                            <span className="text-xs text-gray-600 leading-snug">
+                                                I confirm that my personal details provided are accurate. In compliance with the Malaysian <strong>Personal Data Protection Act (PDPA)</strong>, my contact info will strictly be shared with host <strong>{selectedHomestay.host_name}</strong> to facilitate this booking.
+                                            </span>
+                                        </label>
+                                        {formErrors.pdpa && <p className="text-xs text-red-500 mt-1">{formErrors.pdpa}</p>}
+                                    </div>
+
+                                    {/* Footer buttons */}
+                                    <div className="pt-2 flex items-center justify-end space-x-3">
+                                        <button 
+                                            type="button" 
+                                            onClick={() => setBookingModalOpen(false)}
+                                            className="px-5 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold text-gray-700 hover:bg-gray-100 transition"
+                                        >
+                                            Cancel
+                                        </button>
+                                        <button 
+                                            type="submit"
+                                            className="px-6 py-2.5 bg-teal-800 hover:bg-teal-900 text-white text-sm font-bold rounded-xl shadow-lg hover:shadow-xl transition flex items-center space-x-2"
+                                        >
+                                            <span>Confirm Booking Request</span>
+                                            <i className="fa-solid fa-arrow-right text-xs"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Footer */}
+                    <footer className="bg-gray-900 text-gray-400 py-12 border-t border-gray-800 mt-auto">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+                            <div className="space-y-3">
+                                <div className="flex items-center space-x-2">
+                                    <div className="w-8 h-8 bg-teal-700 rounded-lg flex items-center justify-center text-yellow-300 font-bold">
+                                        <i className="fa-solid fa-feather-pointed"></i>
+                                    </div>
+                                    <span className="text-lg font-bold text-white">Borneo<span className="text-teal-400">Nest</span></span>
+                                </div>
+                                <p className="text-xs text-gray-400 leading-relaxed">
+                                    Your localized homestay booking companion in Kuching, Sarawak. Transparent pricing directly in Malaysian Ringgit (MYR).
+                                </p>
+                            </div>
+
+                            <div>
+                                <h5 className="text-xs font-bold text-gray-200 uppercase tracking-widest mb-3">Popular Neighborhoods</h5>
+                                <ul className="space-y-1.5 text-xs">
+                                    <li><a href="#" onClick={(e) => { e.preventDefault(); setSelectedLocation('Kuching City Centre'); setActiveTab('explore'); }} className="hover:text-amber-400 transition">Kuching Waterfront & City</a></li>
+                                    <li><a href="#" onClick={(e) => { e.preventDefault(); setSelectedLocation('Santubong & Damai'); setActiveTab('explore'); }} className="hover:text-amber-400 transition">Santubong & Damai Beach</a></li>
+                                    <li><a href="#" onClick={(e) => { e.preventDefault(); setSelectedLocation('Matang'); setActiveTab('explore'); }} className="hover:text-amber-400 transition">Matang Rainforest Chalets</a></li>
+                                    <li><a href="#" onClick={(e) => { e.preventDefault(); setSelectedLocation('Satok'); setActiveTab('explore'); }} className="hover:text-amber-400 transition">Satok Heritage Precinct</a></li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h5 className="text-xs font-bold text-gray-200 uppercase tracking-widest mb-3">Host & Support</h5>
+                                <ul className="space-y-1.5 text-xs">
+                                    <li><a href="#" onClick={(e) => { e.preventDefault(); setActiveTab('host'); }} className="hover:text-amber-400 transition">List Your Property</a></li>
+                                    <li><a href="#" onClick={(e) => { e.preventDefault(); alert("PDPA Privacy Policy: BorneoNest stores guest data locally for booking requests and never sells information."); }} className="hover:text-amber-400 transition">PDPA Compliance Notice</a></li>
+                                    <li><a href="#" onClick={(e) => { e.preventDefault(); alert("Emergency Host Line: +60 82-345 6789 (Kuching Desk)"); }} className="hover:text-amber-400 transition">Kuching Support Desk</a></li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h5 className="text-xs font-bold text-gray-200 uppercase tracking-widest mb-3">Sarawak Highlights</h5>
+                                <p className="text-xs text-gray-400 leading-relaxed mb-3">
+                                    Experience Rainforest World Music Festival, Mount Santubong hikes, Laksa Sarawak tours, and cat monuments.
+                                </p>
+                                <div className="inline-block bg-teal-950 border border-teal-800 text-teal-300 text-[11px] px-3 py-1.5 rounded-lg font-mono">
+                                    Local Time: GMT+8 (Kuching)
+                                </div>
+                            </div>
+                        </div>
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 mt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500">
+                            <p>© 2026 BorneoNest Sarawak. All rights reserved.</p>
+                            <p className="mt-2 sm:mt-0">Designed for Kuching Homestays in MYR (RM)</p>
+                        </div>
+                    </footer>
+                </div>
+            );
+        }
+
+        function ExploreView({
+            homestays,
+            allHomestays,
+            searchKeyword,
+            setSearchKeyword,
+            selectedLocation,
+            setSelectedLocation,
+            selectedCategory,
+            setSelectedCategory,
+            maxPrice,
+            setMaxPrice,
+            minBedrooms,
+            setMinBedrooms,
+            onSelectStay,
+            wishlist,
+            toggleWishlist,
+            showMapView
+        }) {
+            const locations = ["All", "Kuching City Centre", "Santubong & Damai", "Satok", "Matang", "Padungan", "Batu Kawa"];
+            const categories = ["All", "Heritage", "Beachfront", "City Center", "Nature", "Luxury", "Family"];
+
+            return (
+                <div>
+                    {/* Hero Banner Section */}
+                    <div className="relative bg-teal-900 text-white overflow-hidden py-12 sm:py-16">
+                        <div className="absolute inset-0 z-0 opacity-25 bg-[url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-teal-950 via-teal-900/90 to-transparent z-0"></div>
+
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                            <div className="max-w-2xl space-y-3">
+                                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-amber-400 text-gray-900 shadow-sm">
+                                    <i className="fa-solid fa-star mr-1 text-xs"></i> Authentic Local Stays in Kuching
+                                </span>
+                                <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+                                    Find Your Perfect <span className="text-yellow-300">Sarawak Nest</span>
+                                </h1>
+                                <p className="text-sm sm:text-base text-teal-100">
+                                    Book handpicked homestays near Kuching Waterfront, Santubong beaches, and rainforest trails with transparent pricing in Malaysian Ringgit.
+                                </p>
+                            </div>
+
+                            {/* Search Bar Box */}
+                            <div className="mt-8 bg-white text-gray-900 p-4 sm:p-5 rounded-2xl shadow-xl border border-amber-100/50 max-w-4xl">
+                                <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-3 items-center">
+                                    {/* Keyword Search */}
+                                    <div className="relative">
+                                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Search Keyword</label>
+                                        <div className="flex items-center border border-gray-200 rounded-xl px-3 py-2 bg-gray-50/50 focus-within:ring-2 focus-within:ring-teal-600">
+                                            <i className="fa-solid fa-magnifying-glass text-gray-400 mr-2 text-sm"></i>
+                                            <input 
+                                                type="text" 
+                                                placeholder="Waterfront, Santubong..."
+                                                value={searchKeyword}
+                                                onChange={(e) => setSearchKeyword(e.target.value)}
+                                                className="w-full text-xs bg-transparent focus:outline-none text-gray-800 font-medium"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* Location Filter */}
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Area / District</label>
+                                        <select 
+                                            value={selectedLocation}
+                                            onChange={(e) => setSelectedLocation(e.target.value)}
+                                            className="w-full border border-gray-200 rounded-xl px-3 py-2 bg-gray-50/50 text-xs font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-600"
+                                        >
+                                            {locations.map(loc => (
+                                                <option key={loc} value={loc}>{loc === 'All' ? 'All Kuching Areas' : loc}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+
+                                    {/* Price Range */}
+                                    <div>
+                                        <div className="flex justify-between items-center mb-1">
+                                            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Max Price</label>
+                                            <span className="text-xs font-bold text-teal-800">{formatMYR(maxPrice)}/night</span>
+                                        </div>
+                                        <input 
+                                            type="range" 
+                                            min="100" 
+                                            max="500" 
+                                            step="25"
+                                            value={maxPrice}
+                                            onChange={(e) => setMaxPrice(Number(e.target.value))}
+                                            className="w-full accent-teal-700 cursor-pointer"
+                                        />
+                                    </div>
+
+                                    {/* Clear or Reset Button */}
+                                    <div className="flex items-end space-x-2">
+                                        <button 
+                                            onClick={() => {
+                                                setSearchKeyword('');
+                                                setSelectedLocation('All');
+                                                setSelectedCategory('All');
+                                                setMaxPrice(500);
+                                                setMinBedrooms(1);
+                                            }}
+                                            className="w-full py-2.5 px-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-1"
+                                        >
+                                            <i className="fa-solid fa-rotate-left text-xs"></i>
+                                            <span>Reset</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Main Listing Section */}
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                        {/* Category Pills Bar */}
+                        <div className="flex items-center space-x-2 overflow-x-auto pb-4 custom-scrollbar mb-6">
+                            {categories.map(cat => (
+                                <button
+                                    key={cat}
+                                    onClick={() => setSelectedCategory(cat)}
+                                    className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition border ${
+                                        selectedCategory === cat 
+                                            ? 'bg-teal-800 text-white border-teal-800 shadow-md' 
+                                            : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'
+                                    }`}
+                                >
+                                    {cat === 'All' ? 'All Stay Styles' : cat}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Showing count indicator */}
+                        <div className="flex items-center justify-between mb-6">
+                            <h2 className="text-xl font-extrabold text-gray-900">
+                                Kuching Homestays <span className="text-teal-700 text-base font-normal">({homestays.length} available)</span>
+                            </h2>
+                            {selectedLocation !== 'All' && (
+                                <span className="text-xs bg-teal-50 border border-teal-200 text-teal-800 px-3 py-1 rounded-full font-semibold">
+                                    Filter: {selectedLocation}
+                                </span>
+                            )}
+                        </div>
+
+                        {/* Interactive Visual Map View or Grid View */}
+                        {showMapView ? (
+                            <KuchingInteractiveMapView 
+                                homestays={homestays} 
+                                onSelectStay={onSelectStay} 
+                            />
+                        ) : homestays.length === 0 ? (
+                            /* Empty State handling */
+                            <div className="bg-white rounded-3xl p-12 text-center border border-dashed border-gray-300 my-8 max-w-lg mx-auto">
+                                <div className="w-16 h-16 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                                    <i className="fa-solid fa-house-circle-xmark"></i>
+                                </div>
+                                <h3 className="text-lg font-bold text-gray-800">No Homestays Found in This Area</h3>
+                                <p className="text-xs text-gray-500 mt-2 leading-relaxed">
+                                    We couldn't find any stays matching your current location or price filters. Try resetting your search filters to explore all stays.
+                                </p>
+                                <button 
+                                    onClick={() => {
+                                        setSearchKeyword('');
+                                        setSelectedLocation('All');
+                                        setSelectedCategory('All');
+                                        setMaxPrice(500);
+                                    }}
+                                    className="mt-5 px-5 py-2.5 bg-teal-800 text-white rounded-xl text-xs font-bold hover:bg-teal-900 transition shadow-md"
+                                >
+                                    Reset Filters
+                                </button>
+                            </div>
+                        ) : (
+                            /* Grid Layout for Homestay Cards */
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                                {homestays.map(stay => (
+                                    <HomestayCard 
+                                        key={stay.id} 
+                                        stay={stay} 
+                                        onSelect={() => onSelectStay(stay)}
+                                        isSaved={wishlist.includes(stay.id)}
+                                        onToggleWishlist={(e) => toggleWishlist(e, stay.id)}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        function HomestayCard({ stay, onSelect, isSaved, onToggleWishlist }) {
+            return (
+                <div 
+                    onClick={onSelect}
+                    className="bg-white rounded-2xl overflow-hidden border border-gray-200/80 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group cursor-pointer transform hover:-translate-y-1"
+                >
+                    {/* Image Header with heart badge */}
+                    <div className="relative h-56 overflow-hidden bg-gray-100">
+                        <img 
+                            src={stay.image_url} 
+                            alt={stay.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20"></div>
+
+                        {/* Top Badges */}
+                        <div className="absolute top-3 left-3 flex items-center space-x-1.5">
+                            <span className="bg-white/90 backdrop-blur-md text-teal-900 text-[11px] font-extrabold px-2.5 py-1 rounded-lg shadow-sm">
+                                {stay.category}
+                            </span>
+                            {stay.is_superhost && (
+                                <span className="bg-amber-400 text-gray-900 text-[10px] font-extrabold px-2 py-1 rounded-lg shadow-sm">
+                                    <i className="fa-solid fa-award mr-1"></i>Superhost
+                                </span>
+                            )}
+                        </div>
+
+                        {/* Wishlist Heart Button */}
+                        <button 
+                            onClick={onToggleWishlist}
+                            className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/80 hover:bg-white text-gray-700 hover:text-red-500 shadow-md flex items-center justify-center transition"
+                            title="Save to Wishlist"
+                        >
+                            <i className={`fa-${isSaved ? 'solid text-red-500' : 'regular'} fa-heart text-base`}></i>
+                        </button>
+
+                        {/* Bottom Location Tag */}
+                        <div className="absolute bottom-3 left-3 text-white text-xs font-semibold flex items-center drop-shadow-md">
+                            <i className="fa-solid fa-location-dot text-amber-300 mr-1.5"></i>
+                            {stay.location}
+                        </div>
+                    </div>
+
+                    {/* Card Body */}
+                    <div className="p-5 flex-grow flex flex-col justify-between space-y-4">
+                        <div>
+                            <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
+                                <span>{stay.bedrooms} Beds • {stay.max_guests} Guests max</span>
+                                <div className="flex items-center font-bold text-gray-800">
+                                    <i className="fa-solid fa-star text-amber-400 mr-1 text-xs"></i>
+                                    {stay.rating} <span className="text-gray-400 font-normal ml-0.5">({stay.reviews_count})</span>
+                                </div>
+                            </div>
+
+                            <h3 className="font-bold text-gray-900 text-base leading-snug group-hover:text-teal-700 transition line-clamp-2">
+                                {stay.title}
+                            </h3>
+                        </div>
+
+                        {/* Amenities Quick Icons */}
+                        <div className="flex flex-wrap gap-1.5 pt-1">
+                            {stay.amenities.slice(0, 3).map((amenity, idx) => (
+                                <span key={idx} className="bg-gray-100 text-gray-600 text-[10px] px-2 py-1 rounded-md font-medium">
+                                    {amenity}
+                                </span>
+                            ))}
+                            {stay.amenities.length > 3 && (
+                                <span className="bg-gray-50 text-gray-400 text-[10px] px-1.5 py-1 rounded-md font-medium">
+                                    +{stay.amenities.length - 3} more
+                                </span>
+                            )}
+                        </div>
+
+                        {/* Price & Action Row */}
+                        <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
+                            <div>
+                                <span className="text-xs text-gray-400 block font-medium">Nightly Rate</span>
+                                <div className="text-lg font-extrabold text-teal-800">
+                                    {formatMYR(stay.nightly_price_myr)} <span className="text-xs font-normal text-gray-500">/ night</span>
+                                </div>
+                            </div>
+
+                            <button className="px-3.5 py-2 bg-teal-50 hover:bg-teal-800 text-teal-800 hover:text-white rounded-xl text-xs font-bold transition flex items-center space-x-1.5">
+                                <span>View Details</span>
+                                <i className="fa-solid fa-chevron-right text-[10px]"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function PropertyDetailView({
+            homestay,
+            onBack,
+            checkInDate,
+            checkOutDate,
+            onCheckInChange,
+            onCheckOutChange,
+            stayNights,
+            guestsCount,
+            setGuestsCount,
+            grandTotalMYR,
+            cleaningFee,
+            serviceTax,
+            onOpenBooking,
+            isSaved,
+            onToggleWishlist
+        }) {
+            const [selectedImage, setSelectedImage] = React.useState(homestay.image_url);
+
+            return (
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
+                    {/* Back Navigation Bar */}
+                    <div className="flex items-center justify-between mb-6">
+                        <button 
+                            onClick={onBack}
+                            className="inline-flex items-center space-x-2 text-xs font-bold text-gray-600 hover:text-teal-800 bg-white border border-gray-200 px-4 py-2 rounded-xl shadow-xs transition"
+                        >
+                            <i className="fa-solid fa-arrow-left"></i>
+                            <span>Back to Listings</span>
+                        </button>
+
+                        <div className="flex items-center space-x-3">
+                            <button 
+                                onClick={onToggleWishlist}
+                                className={`px-4 py-2 rounded-xl text-xs font-bold border transition flex items-center space-x-2 ${
+                                    isSaved ? 'bg-red-50 text-red-600 border-red-200' : 'bg-white text-gray-700 border-gray-200'
+                                }`}
+                            >
+                                <i className={`fa-${isSaved ? 'solid text-red-500' : 'regular'} fa-heart`}></i>
+                                <span>{isSaved ? 'Saved in Wishlist' : 'Save to Wishlist'}</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Title & Location Header */}
+                    <div className="mb-6">
+                        <div className="flex flex-wrap items-center gap-2 mb-2">
+                            <span className="bg-teal-100 text-teal-800 text-xs font-bold px-3 py-1 rounded-full">
+                                {homestay.category} Homestay
+                            </span>
+                            {homestay.is_superhost && (
+                                <span className="bg-amber-100 text-amber-900 text-xs font-bold px-3 py-1 rounded-full flex items-center">
+                                    <i className="fa-solid fa-award mr-1 text-amber-600"></i> Sarawak Superhost
+                                </span>
+                            )}
+                            <span className="text-xs text-gray-500 flex items-center ml-auto font-medium">
+                                <i className="fa-solid fa-star text-amber-400 mr-1"></i>
+                                <strong className="text-gray-800">{homestay.rating}</strong> ({homestay.reviews_count} guest reviews)
+                            </span>
+                        </div>
+
+                        <h1 className="text-2xl sm:text-4xl font-extrabold text-gray-900 leading-tight">
+                            {homestay.title}
+                        </h1>
+                        <p className="text-sm text-gray-600 mt-2 flex items-center">
+                            <i className="fa-solid fa-location-dot text-teal-700 mr-2 text-base"></i>
+                            {homestay.address}
+                        </p>
+                    </div>
+
+                    {/* Photo Gallery Grid */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-10">
+                        <div className="lg:col-span-2 h-80 sm:h-96 rounded-3xl overflow-hidden bg-gray-100 shadow-md">
+                            <img 
+                                src={selectedImage} 
+                                alt={homestay.title} 
+                                className="w-full h-full object-cover transition-all duration-300"
+                            />
+                        </div>
+                        <div className="grid grid-cols-2 lg:grid-cols-1 gap-3 h-auto lg:h-96">
+                            {homestay.images.map((img, idx) => (
+                                <div 
+                                    key={idx} 
+                                    onClick={() => setSelectedImage(img)}
+                                    className={`h-24 sm:h-28 lg:h-28 rounded-2xl overflow-hidden cursor-pointer border-2 transition ${
+                                        selectedImage === img ? 'border-teal-700 ring-2 ring-teal-600/30' : 'border-transparent opacity-80 hover:opacity-100'
+                                    }`}
+                                >
+                                    <img src={img} alt="" className="w-full h-full object-cover" />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Details Grid (Left Content + Right Booking Widget) */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                        {/* Left Details */}
+                        <div className="lg:col-span-2 space-y-8">
+                            {/* Host Specs Banner */}
+                            <div className="bg-white rounded-2xl p-6 border border-gray-200 flex items-center justify-between shadow-xs">
+                                <div className="flex items-center space-x-4">
+                                    <img 
+                                        src={homestay.host_avatar} 
+                                        alt={homestay.host_name} 
+                                        className="w-14 h-14 rounded-full object-cover border-2 border-teal-600"
+                                    />
+                                    <div>
+                                        <h3 className="font-bold text-gray-900 text-base">Hosted by {homestay.host_name}</h3>
+                                        <p className="text-xs text-gray-500">Kuching Local Host • Fast response rate</p>
+                                    </div>
+                                </div>
+                                <div className="text-right text-xs font-semibold text-gray-700 hidden sm:block">
+                                    <span>{homestay.max_guests} Guests</span> • <span>{homestay.bedrooms} Bedrooms</span> • <span>{homestay.bathrooms} Bathrooms</span>
+                                </div>
+                            </div>
+
+                            {/* Overview Description */}
+                            <div className="bg-white rounded-2xl p-6 border border-gray-200 space-y-3">
+                                <h3 className="text-base font-extrabold text-gray-900">About this Kuching Homestay</h3>
+                                <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
+                                    {homestay.description}
+                                </p>
+                            </div>
+
+                            {/* Amenities List */}
+                            <div className="bg-white rounded-2xl p-6 border border-gray-200 space-y-4">
+                                <h3 className="text-base font-extrabold text-gray-900">Featured Amenities</h3>
+                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                    {homestay.amenities.map((amenity, idx) => (
+                                        <div key={idx} className="flex items-center space-x-2.5 text-xs font-medium text-gray-700 bg-gray-50 p-3 rounded-xl border border-gray-100">
+                                            <i className="fa-solid fa-circle-check text-teal-600"></i>
+                                            <span>{amenity}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Nearby Kuching Landmarks */}
+                            <div className="bg-white rounded-2xl p-6 border border-gray-200 space-y-4">
+                                <h3 className="text-base font-extrabold text-gray-900">Nearby Kuching Attractions</h3>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    {homestay.nearby_landmarks.map((item, idx) => (
+                                        <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-amber-50/50 border border-amber-100 text-xs">
+                                            <span className="font-bold text-gray-800"><i className="fa-solid fa-map-pin text-amber-600 mr-2"></i>{item.name}</span>
+                                            <span className="text-gray-500 font-medium">{item.distance}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Right Sticky Booking Widget (Dynamic Cost Calculator) */}
+                        <div className="lg:col-span-1">
+                            <div className="bg-white rounded-3xl p-6 border border-teal-800/20 shadow-xl sticky top-28 space-y-5">
+                                <div className="flex items-baseline justify-between border-b border-gray-100 pb-4">
+                                    <div>
+                                        <span className="text-2xl font-extrabold text-teal-900">{formatMYR(homestay.nightly_price_myr)}</span>
+                                        <span className="text-xs text-gray-500 font-medium"> / night</span>
+                                    </div>
+                                    <span className="text-xs text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg font-bold border border-emerald-200">
+                                        MYR Direct
+                                    </span>
+                                </div>
+
+                                {/* Dynamic Date Picker Card */}
+                                <div className="space-y-3">
+                                    <div className="grid grid-cols-2 gap-2 p-1.5 bg-gray-50 rounded-2xl border border-gray-200">
+                                        <div>
+                                            <label className="block text-[10px] font-bold text-gray-400 uppercase px-2 pt-1">CHECK-IN</label>
+                                            <input 
+                                                type="date" 
+                                                min={getTodayString()}
+                                                value={checkInDate}
+                                                onChange={onCheckInChange}
+                                                className="w-full bg-transparent px-2 pb-1.5 text-xs font-bold text-gray-800 focus:outline-none"
+                                            />
+                                        </div>
+                                        <div className="border-l border-gray-200 pl-2">
+                                            <label className="block text-[10px] font-bold text-gray-400 uppercase px-2 pt-1">CHECK-OUT</label>
+                                            <input 
+                                                type="date" 
+                                                min={checkInDate}
+                                                value={checkOutDate}
+                                                onChange={onCheckOutChange}
+                                                className="w-full bg-transparent px-2 pb-1.5 text-xs font-bold text-gray-800 focus:outline-none"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* Guest counter */}
+                                    <div>
+                                        <label className="block text-xs font-bold text-gray-700 mb-1">Guests</label>
+                                        <select 
+                                            value={guestsCount}
+                                            onChange={(e) => setGuestsCount(Number(e.target.value))}
+                                            className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold text-gray-800 focus:outline-none"
+                                        >
+                                            {[...Array(homestay.max_guests)].map((_, i) => (
+                                                <option key={i + 1} value={i + 1}>{i + 1} Guest{i > 0 ? 's' : ''}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                {/* Dynamic Price Math Breakdown */}
+                                <div className="bg-amber-50/60 p-4 rounded-2xl border border-amber-200/80 space-y-2 text-xs">
+                                    <div className="flex justify-between text-gray-600">
+                                        <span>{formatMYR(homestay.nightly_price_myr)} × {stayNights} night{stayNights > 1 ? 's' : ''}</span>
+                                        <span className="font-semibold text-gray-900">{formatMYR(homestay.nightly_price_myr * stayNights)}</span>
+                                    </div>
+                                    <div className="flex justify-between text-gray-600">
+                                        <span>Cleaning & Sanitize Fee</span>
+                                        <span className="font-semibold text-gray-900">{formatMYR(cleaningFee)}</span>
+                                    </div>
+                                    <div className="flex justify-between text-gray-600">
+                                        <span>Sarawak Service & Local Tax (6%)</span>
+                                        <span className="font-semibold text-gray-900">{formatMYR(serviceTax)}</span>
+                                    </div>
+
+                                    <div className="border-t border-amber-200/80 pt-2.5 mt-2 flex justify-between items-baseline">
+                                        <span className="font-extrabold text-gray-900 text-sm">Total Stay Cost</span>
+                                        <span className="font-extrabold text-teal-900 text-xl">{formatMYR(grandTotalMYR)}</span>
+                                    </div>
+                                </div>
+
+                                {/* Reserve CTA Button */}
+                                <button 
+                                    onClick={onOpenBooking}
+                                    className="w-full py-3.5 bg-teal-800 hover:bg-teal-900 text-white rounded-2xl text-sm font-bold shadow-lg hover:shadow-xl transition flex items-center justify-center space-x-2"
+                                >
+                                    <i className="fa-solid fa-lock text-yellow-300"></i>
+                                    <span>Reserve Stay ({formatMYR(grandTotalMYR)})</span>
+                                </button>
+
+                                <p className="text-[11px] text-gray-400 text-center font-medium">
+                                    No immediate payment required. Host will confirm availability.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function KuchingInteractiveMapView({ homestays, onSelectStay }) {
+            return (
+                <div className="bg-teal-950/90 rounded-3xl p-6 text-white border border-teal-800 shadow-2xl relative overflow-hidden min-h-[500px]">
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center space-x-2">
+                            <i className="fa-solid fa-map-pin text-amber-400 text-lg"></i>
+                            <h3 className="font-bold text-base">Kuching Regional Stay Map</h3>
+                        </div>
+                        <span className="text-xs bg-teal-800 text-teal-200 px-3 py-1 rounded-full">Sarawak River & Coastal Stays</span>
+                    </div>
+
+                    {/* Visual Stylized Map Grid Simulation */}
+                    <div className="relative w-full h-[420px] bg-emerald-950/80 rounded-2xl border border-teal-800 overflow-hidden p-4 flex flex-col justify-between">
+                        {/* Stylized River Path */}
+                        <div className="absolute inset-x-0 top-1/2 h-12 bg-sky-600/30 transform -rotate-3 blur-xs flex items-center justify-center text-sky-200 text-[11px] font-mono tracking-widest uppercase">
+                            ~~~ Sarawak River ~~~
+                        </div>
+
+                        {/* Interactive Pins */}
+                        <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                            {homestays.map(stay => (
+                                <div 
+                                    key={stay.id}
+                                    onClick={() => onSelectStay(stay)}
+                                    className="bg-white text-gray-900 p-3 rounded-xl shadow-lg border border-amber-300 hover:scale-105 transition cursor-pointer flex items-center space-x-3 group"
+                                >
+                                    <img src={stay.image_url} className="w-12 h-12 rounded-lg object-cover" alt="" />
+                                    <div className="min-w-0 flex-1">
+                                        <h5 className="font-bold text-xs truncate group-hover:text-teal-700">{stay.title}</h5>
+                                        <p className="text-[10px] text-gray-500">{stay.location}</p>
+                                        <span className="inline-block mt-1 font-extrabold text-xs text-teal-800 bg-amber-100 px-2 py-0.5 rounded-md">
+                                            {formatMYR(stay.nightly_price_myr)}
+                                        </span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="relative z-10 text-right text-[11px] text-teal-300 font-mono">
+                            Showing pinned coordinates for Kuching City, Santubong, Satok & Matang
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function SavedWishlistView({ wishlistIds, homestays, onSelectStay, onToggleWishlist, onExploreMore }) {
+            const savedStays = homestays.filter(s => wishlistIds.includes(s.id));
+
+            return (
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 animate-fade-in">
+                    <div className="flex items-center justify-between mb-8">
+                        <div>
+                            <h1 className="text-2xl font-extrabold text-gray-900">Your Saved Wishlist</h1>
+                            <p className="text-xs text-gray-500 mt-1">Homestays in Kuching you saved for later</p>
+                        </div>
+                        <button onClick={onExploreMore} className="text-xs font-bold text-teal-700 hover:underline">
+                            Browse All Stays →
+                        </button>
+                    </div>
+
+                    {savedStays.length === 0 ? (
+                        <div className="bg-white rounded-3xl p-12 text-center border border-gray-200 max-w-md mx-auto">
+                            <i className="fa-regular fa-heart text-4xl text-gray-300 mb-3 block"></i>
+                            <h3 className="font-bold text-gray-800">Your Wishlist is Empty</h3>
+                            <p className="text-xs text-gray-500 mt-1">Click the heart icon on any stay to save it here.</p>
+                            <button 
+                                onClick={onExploreMore}
+                                className="mt-5 px-5 py-2.5 bg-teal-800 text-white rounded-xl text-xs font-bold hover:bg-teal-900 transition"
+                            >
+                                Explore Homestays
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {savedStays.map(stay => (
+                                <HomestayCard 
+                                    key={stay.id} 
+                                    stay={stay} 
+                                    onSelect={() => onSelectStay(stay)}
+                                    isSaved={true}
+                                    onToggleWishlist={(e) => onToggleWishlist(e, stay.id)}
+                                />
+                            ))}
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        function UserBookingsView({ bookings, onViewReceipt, onExploreMore }) {
+            return (
+                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 animate-fade-in">
+                    <div className="flex items-center justify-between mb-8">
+                        <div>
+                            <h1 className="text-2xl font-extrabold text-gray-900">My Stay Bookings</h1>
+                            <p className="text-xs text-gray-500 mt-1">Track your submitted reservation requests in Kuching</p>
+                        </div>
+                        <button onClick={onExploreMore} className="text-xs font-bold text-teal-700 hover:underline">
+                            + Book Another Stay
+                        </button>
+                    </div>
+
+                    {bookings.length === 0 ? (
+                        <div className="bg-white rounded-3xl p-12 text-center border border-gray-200 max-w-md mx-auto">
+                            <i className="fa-solid fa-receipt text-4xl text-gray-300 mb-3 block"></i>
+                            <h3 className="font-bold text-gray-800">No Active Bookings</h3>
+                            <p className="text-xs text-gray-500 mt-1">When you reserve a homestay, your confirmation details will appear here.</p>
+                            <button 
+                                onClick={onExploreMore}
+                                className="mt-5 px-5 py-2.5 bg-teal-800 text-white text-xs font-bold rounded-xl shadow-md"
+                            >
+                                Start Browsing
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="space-y-4">
+                            {bookings.map((b, idx) => (
+                                <div key={idx} className="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                                    <div className="flex items-center space-x-4">
+                                        <img src={b.homestay.image_url} alt="" className="w-20 h-20 rounded-xl object-cover" />
+                                        <div>
+                                            <div className="flex items-center space-x-2">
+                                                <span className="bg-emerald-100 text-emerald-800 text-[10px] font-extrabold px-2 py-0.5 rounded-md">
+                                                    {b.status}
+                                                </span>
+                                                <span className="text-[11px] font-mono text-gray-400">ID: {b.bookingId}</span>
+                                            </div>
+                                            <h4 className="font-bold text-gray-900 text-sm mt-1">{b.homestay.title}</h4>
+                                            <p className="text-xs text-gray-500 mt-0.5"><i className="fa-regular fa-calendar mr-1"></i>{b.checkIn} to {b.checkOut} ({b.nights} night{b.nights > 1 ? 's' : ''})</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto border-t sm:border-t-0 border-gray-100 pt-3 sm:pt-0">
+                                        <span className="text-lg font-extrabold text-teal-800">{formatMYR(b.totalMYR)}</span>
+                                        <button 
+                                            onClick={() => onViewReceipt(b)}
+                                            className="mt-1 px-4 py-1.5 bg-teal-50 text-teal-800 hover:bg-teal-800 hover:text-white text-xs font-bold rounded-lg transition"
+                                        >
+                                            View Receipt
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        function ReceiptView({ receipt, onBackToExplore }) {
+            return (
+                <div className="max-w-2xl mx-auto px-4 py-12 animate-fade-in">
+                    <div className="bg-white rounded-3xl border border-gray-200 shadow-2xl overflow-hidden">
+                        {/* Success Top Banner */}
+                        <div className="bg-teal-900 text-white p-8 text-center relative">
+                            <div className="w-16 h-16 bg-amber-400 text-gray-900 rounded-full flex items-center justify-center mx-auto mb-3 text-2xl font-bold shadow-lg">
+                                <i className="fa-solid fa-check"></i>
+                            </div>
+                            <h2 className="text-2xl font-extrabold">Booking Confirmed!</h2>
+                            <p className="text-xs text-teal-200 mt-1">Your reservation request has been transmitted to host {receipt.homestay.host_name}</p>
+                            <span className="inline-block mt-3 bg-teal-800 text-amber-300 font-mono text-xs px-3 py-1 rounded-full border border-teal-700">
+                                Reservation ID: {receipt.bookingId}
+                            </span>
+                        </div>
+
+                        {/* Receipt Body */}
+                        <div className="p-6 space-y-6">
+                            <div className="flex items-center space-x-4 border-b pb-4">
+                                <img src={receipt.homestay.image_url} className="w-20 h-20 rounded-xl object-cover" alt="" />
+                                <div>
+                                    <h3 className="font-bold text-gray-900 text-sm">{receipt.homestay.title}</h3>
+                                    <p className="text-xs text-gray-500 mt-1"><i className="fa-solid fa-location-dot text-teal-700 mr-1"></i>{receipt.homestay.address}</p>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4 text-xs">
+                                <div className="bg-gray-50 p-3 rounded-xl">
+                                    <span className="text-gray-400 block text-[10px] font-bold">GUEST NAME</span>
+                                    <span className="font-bold text-gray-800">{receipt.guestName}</span>
+                                </div>
+                                <div className="bg-gray-50 p-3 rounded-xl">
+                                    <span className="text-gray-400 block text-[10px] font-bold">CONTACT PHONE</span>
+                                    <span className="font-bold text-gray-800">+60 {receipt.guestPhone}</span>
+                                </div>
+                                <div className="bg-gray-50 p-3 rounded-xl">
+                                    <span className="text-gray-400 block text-[10px] font-bold">CHECK-IN</span>
+                                    <span className="font-bold text-gray-800">{receipt.checkIn}</span>
+                                </div>
+                                <div className="bg-gray-50 p-3 rounded-xl">
+                                    <span className="text-gray-400 block text-[10px] font-bold">CHECK-OUT</span>
+                                    <span className="font-bold text-gray-800">{receipt.checkOut} ({receipt.nights} nights)</span>
+                                </div>
+                            </div>
+
+                            {/* Total Cost Summary */}
+                            <div className="bg-amber-50 p-4 rounded-xl border border-amber-200/80 flex items-center justify-between">
+                                <div>
+                                    <span className="text-xs text-gray-600 block">Total MYR Paid / Reserved</span>
+                                    <span className="text-2xl font-extrabold text-teal-900">{formatMYR(receipt.totalMYR)}</span>
+                                </div>
+                                <span className="text-xs bg-emerald-600 text-white font-bold px-3 py-1 rounded-full">
+                                    Guaranteed Rate
+                                </span>
+                            </div>
+
+                            <div className="text-center pt-2 space-y-3">
+                                <button 
+                                    onClick={() => window.print()}
+                                    className="w-full py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-xs rounded-xl transition flex items-center justify-center space-x-2"
+                                >
+                                    <i className="fa-solid fa-print"></i>
+                                    <span>Print Receipt PDF</span>
+                                </button>
+                                <button 
+                                    onClick={onBackToExplore}
+                                    className="w-full py-3 bg-teal-800 hover:bg-teal-900 text-white font-bold text-xs rounded-xl shadow-md transition"
+                                >
+                                    Back to BorneoNest Main Page
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function HostPortalView({ homestays, setHomestays, userBookings, triggerToast }) {
+            const [showAddForm, setShowAddForm] = React.useState(false);
+            const [newTitle, setNewTitle] = React.useState('');
+            const [newLocation, setNewLocation] = React.useState('Kuching City Centre');
+            const [newPrice, setNewPrice] = React.useState(180);
+            const [newBedrooms, setNewBedrooms] = React.useState(2);
+            const [newCategory, setNewCategory] = React.useState('Heritage');
+            const [newDescription, setNewDescription] = React.useState('');
+
+            const handleCreateStay = (e) => {
+                e.preventDefault();
+                if (!newTitle.trim()) {
+                    alert("Please provide a title for your homestay.");
+                    return;
+                }
+
+                const createdStay = {
+                    id: `hs_custom_${Date.now()}`,
+                    title: newTitle,
+                    location: newLocation,
+                    address: `${newLocation}, Kuching, Sarawak`,
+                    category: newCategory,
+                    nightly_price_myr: Number(newPrice),
+                    bedrooms: Number(newBedrooms),
+                    beds: Number(newBedrooms),
+                    bathrooms: 1,
+                    max_guests: Number(newBedrooms) * 2,
+                    rating: 5.0,
+                    reviews_count: 1,
+                    image_url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+                    images: ["https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80"],
+                    amenities: ["Free WiFi", "Air Conditioning", "Free Parking", "Kitchen"],
+                    host_name: "Your Property",
+                    host_avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80",
+                    is_superhost: true,
+                    description: newDescription || "Welcome to my newly listed homestay in Kuching! Clean, comfortable and near top attractions.",
+                    nearby_landmarks: [{ name: "Kuching Center", distance: "5 mins" }],
+                    coordinates: { lat: 1.55, lng: 110.34 }
+                };
+
+                setHomestays([createdStay, ...homestays]);
+                setShowAddForm(false);
+                setNewTitle('');
+                setNewDescription('');
+                triggerToast("New homestay successfully listed on BorneoNest!");
+            };
+
+            return (
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 animate-fade-in space-y-8">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-gray-200 pb-6">
+                        <div>
+                            <span className="text-xs font-bold uppercase tracking-wider text-amber-600">Kuching Property Management</span>
+                            <h1 className="text-3xl font-extrabold text-gray-900">Host Dashboard</h1>
+                            <p className="text-xs text-gray-500 mt-1">Manage listings and view incoming guest requests</p>
+                        </div>
+                        <button 
+                            onClick={() => setShowAddForm(!showAddForm)}
+                            className="px-5 py-2.5 bg-teal-800 hover:bg-teal-900 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center space-x-2"
+                        >
+                            <i className="fa-solid fa-plus"></i>
+                            <span>{showAddForm ? 'Close Form' : 'Add New Listing'}</span>
+                        </button>
+                    </div>
+
+                    {/* Add Homestay Form Modal / Collapsible */}
+                    {showAddForm && (
+                        <div className="bg-white p-6 rounded-3xl border border-teal-200 shadow-xl space-y-4">
+                            <h3 className="font-extrabold text-gray-900 text-base border-b pb-3">List a New Kuching Homestay</h3>
+                            <form onSubmit={handleCreateStay} className="space-y-4">
+                                <div>
+                                    <label className="block text-xs font-bold text-gray-700 mb-1">Homestay Title</label>
+                                    <input 
+                                        type="text" 
+                                        placeholder="e.g. Modern Riverfront Studio @ Carpenter Street" 
+                                        value={newTitle}
+                                        onChange={(e) => setNewTitle(e.target.value)}
+                                        className="w-full px-4 py-2 rounded-xl border border-gray-300 text-xs focus:ring-2 focus:ring-teal-600"
+                                        required
+                                    />
+                                </div>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                    <div>
+                                        <label className="block text-xs font-bold text-gray-700 mb-1">Area / Location</label>
+                                        <select 
+                                            value={newLocation} 
+                                            onChange={(e) => setNewLocation(e.target.value)}
+                                            className="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold"
+                                        >
+                                            <option value="Kuching City Centre">Kuching City Centre</option>
+                                            <option value="Santubong & Damai">Santubong & Damai</option>
+                                            <option value="Satok">Satok</option>
+                                            <option value="Matang">Matang</option>
+                                            <option value="Padungan">Padungan</option>
+                                            <option value="Batu Kawa">Batu Kawa</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs font-bold text-gray-700 mb-1">Nightly Price (MYR)</label>
+                                        <input 
+                                            type="number" 
+                                            min="80" 
+                                            max="1000" 
+                                            value={newPrice}
+                                            onChange={(e) => setNewPrice(e.target.value)}
+                                            className="w-full px-4 py-2 rounded-xl border border-gray-300 text-xs font-bold"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs font-bold text-gray-700 mb-1">Bedrooms</label>
+                                        <input 
+                                            type="number" 
+                                            min="1" 
+                                            max="10" 
+                                            value={newBedrooms}
+                                            onChange={(e) => setNewBedrooms(e.target.value)}
+                                            className="w-full px-4 py-2 rounded-xl border border-gray-300 text-xs font-bold"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs font-bold text-gray-700 mb-1">Description</label>
+                                    <textarea 
+                                        rows="3" 
+                                        placeholder="Describe your property amenities and proximity to attractions..."
+                                        value={newDescription}
+                                        onChange={(e) => setNewDescription(e.target.value)}
+                                        className="w-full px-4 py-2 rounded-xl border border-gray-300 text-xs focus:ring-2 focus:ring-teal-600"
+                                    ></textarea>
+                                </div>
+
+                                <button 
+                                    type="submit"
+                                    className="px-6 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-md transition"
+                                >
+                                    Publish Property Listing
+                                </button>
+                            </form>
+                        </div>
+                    )}
+
+                    {/* Active Properties List */}
+                    <div className="space-y-4">
+                        <h3 className="font-extrabold text-gray-900 text-base">Your Active Properties ({homestays.length})</h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {homestays.map(stay => (
+                                <div key={stay.id} className="bg-white p-4 rounded-2xl border border-gray-200 flex items-center space-x-3">
+                                    <img src={stay.image_url} className="w-16 h-16 rounded-xl object-cover" alt="" />
+                                    <div className="min-w-0 flex-1">
+                                        <h4 className="font-bold text-xs text-gray-900 truncate">{stay.title}</h4>
+                                        <p className="text-[10px] text-gray-500">{stay.location}</p>
+                                        <span className="text-xs font-extrabold text-teal-800">{formatMYR(stay.nightly_price_myr)}/night</span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
